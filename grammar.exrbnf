@@ -18,7 +18,7 @@ LabelEnd   : 'END' ID             { Label(@0, $1, True) }
            ;
 
 Say        : 'SAY' <saystr>        { Say(@0, None, $1) }
-           | ID 'SAY' <saystr>     { Say(@0, $0, $2)   }
+           | ID 'SAY' <saystr>     { Say(@1, $0, $2)   }
            ;
 
 Command    : '>' ID         { Command(@0, $1, []) }

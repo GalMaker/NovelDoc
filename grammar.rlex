@@ -11,5 +11,5 @@ number [-+]?[0-9]+(\.[eE][-+]?\d+)?
 space \s+
 identifier [a-zA-Z][-a-zA-Z._0-9]*
 str "([^\\"]+|\\.)*?"
-saystr 「(.)*?」
+saystr 「([^\\「]+?|\\.)*?」
 comment //[^\n\r]*|#[^\n\r]*

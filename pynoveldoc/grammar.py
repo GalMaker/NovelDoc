@@ -4,7 +4,7 @@ from rbnf_rts.rbnf_linker import link
 from rbnf_rts.utils import ImmutableMap
 from rbnf_rts.lexical import *
 __all__ = ['lexicals', 'run_lexer', 'mk_parser']
-(lexicals, run_lexer) = lexer(r(number='[-+]?[0-9]+(\\.[eE][-+]?\\d+)?'), r(space='\\s+'), r(identifier='[a-zA-Z][-a-zA-Z._0-9]*'), r(str='"([^\\\\"]+|\\\\.)*?"'), r(saystr='「(.)*?」'), r(comment='//[^\\n\\r]*|#[^\\n\\r]*'), l['>'], l['='], ignores=['space'], reserved_map=ImmutableMap.from_dict({'NOVEL_START': 'quote NOVEL_START', 'NOVEL_END': 'quote NOVEL_END', 'START': 'quote START', 'STORY': 'quote STORY', 'END': 'quote END', 'SAY': 'quote SAY', '>': 'quote >', 'SET': 'quote SET', '=': 'quote ='}), numbering={'BOF': 0, 'EOF': 1, 'quote NOVEL_START': 2, 'quote NOVEL_END': 3, 'quote START': 4, 'quote STORY': 5, 'quote END': 6, 'quote SAY': 7, 'quote >': 8, 'quote SET': 9, 'quote =': 10, 'number': 11, 'space': 12, 'identifier': 13, 'str': 14, 'saystr': 15, 'comment': 16})
+(lexicals, run_lexer) = lexer(r(number='[-+]?[0-9]+(\\.[eE][-+]?\\d+)?'), r(space='\\s+'), r(identifier='[a-zA-Z][-a-zA-Z._0-9]*'), r(str='"([^\\\\"]+|\\\\.)*?"'), r(saystr='「([^\\\\「]+?|\\\\.)*?」'), r(comment='//[^\\n\\r]*|#[^\\n\\r]*'), l['>'], l['='], ignores=['space'], reserved_map=ImmutableMap.from_dict({'NOVEL_START': 'quote NOVEL_START', 'NOVEL_END': 'quote NOVEL_END', 'START': 'quote START', 'STORY': 'quote STORY', 'END': 'quote END', 'SAY': 'quote SAY', '>': 'quote >', 'SET': 'quote SET', '=': 'quote ='}), numbering={'BOF': 0, 'EOF': 1, 'quote NOVEL_START': 2, 'quote NOVEL_END': 3, 'quote START': 4, 'quote STORY': 5, 'quote END': 6, 'quote SAY': 7, 'quote >': 8, 'quote SET': 9, 'quote =': 10, 'number': 11, 'space': 12, 'identifier': 13, 'str': 14, 'saystr': 15, 'comment': 16})
 
 
 
@@ -703,7 +703,7 @@ def mk_parser(Lit, Let, Say, Str, Doc, Label, Novel):
                             lcl_6 = (False, lcl_6)
                             lcl_5 = lcl_6
                         else:
-                            lcl_6 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                            lcl_6 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
                             lcl_7 = _slot_0
                             lcl_8 = _slot_2
                             lcl_6 = Say(lcl_6, lcl_7, lcl_8)
