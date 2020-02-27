@@ -6,8 +6,6 @@ Str : <str> { Lit(@0, Str(*$0)) } ;
 
 ID  : <identifier> { Lit(@0, *$0) } ;
 
-NewLine : <newline> { *$0 };
-
 Value : Str { $0 }
       | Num { $0 }
       | ID  { $0 }
@@ -38,5 +36,4 @@ Sec    : Let           { $0 }
        | Say           { $0 }
        | Command       { $0 }
        | Novel         { $0 }
-       | NewLine       { $0 }
        ;

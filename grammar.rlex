@@ -1,5 +1,4 @@
 %ignore space
-%ignore newline
 %require Lit
 %require Let
 %require Say
@@ -8,10 +7,9 @@
 %require Label
 %require Novel
 
-newline [\r\n]+
 number [-+]?[0-9]+(\.[eE][-+]?\d+)?
 space \s+
-identifier [a-zA-Z][a-zA-Z0-9]*
+identifier [a-zA-Z][-a-zA-Z._0-9]*
 str "([^\\"]+|\\.)*?"
-saystr 「([^\\「]+|\\.)*?」
+saystr 「(.)*?」
 comment //[^\n\r]*|#[^\n\r]*
