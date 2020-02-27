@@ -66,7 +66,10 @@ Choice change flag.
 ### Camera Move
 
 ```gal
+# bind camera
 + { A : [ x, y, scale ] , B : [x, y, scale]}
+# unbind camera
+- [A , B]
 ```
 
 ### Chapter 

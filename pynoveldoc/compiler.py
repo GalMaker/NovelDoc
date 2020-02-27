@@ -18,10 +18,7 @@ NOVEL_START
 SET lfkdsk = 100  
 SET v = "lfkdsk"
 
-SAY 「lfkdsk
-lfkdsk
-fuck
-」
+SAY 「lfkdsklfkdskfuck 」
 
 A SAY 「dsk」
 
