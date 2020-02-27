@@ -1,0 +1,42 @@
+START : <BOF> 'NOVEL_START' list(Sec) 'NOVEL_END' { Novel($2) } ;
+
+Num : <number> { Lit(@0, int(*$0)) } ;
+
+Str : <str> { Lit(@0, Str(*$0)) } ;
+
+ID  : <identifier> { Lit(@0, *$0) } ;
+
+NewLine : <newline> { *$0 };
+
+Value : Str { $0 }
+      | Num { $0 }
+      | ID  { $0 }
+      ;
+
+LabelStart : 'START' ID 'STORY'   { Label(@0, $1, False) }
+           ;
+
+LabelEnd   : 'END' ID             { Label(@0, $1, True) }
+           ;
+
+Say        : 'SAY' <str>        { Say(@0, None, $1) }
+           | 'SAY' ID <str>     { Say(@0, $1, $2)   }
+           ;
+
+Command    : '>' ID         { Command(@0, $1.value, []) }
+           ;
+
+
+Novel      : LabelStart LabelEnd           { Doc($0, None) }
+           | LabelStart list(Sec) LabelEnd { Doc($0, $1)   }
+           ;
+
+Let        : 'SET' ID '=' Value   { Let(@0, $1, $3) }
+           ;
+
+Sec    : Let           { $0 }
+       | Say           { $0 }
+       | Command       { $0 }
+       | Novel         { $0 }
+       | NewLine       { $0 }
+       ;

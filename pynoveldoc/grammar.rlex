@@ -1,0 +1,16 @@
+%ignore space
+%ignore newline
+%require Lit
+%require Let
+%require Say
+%require Str
+%require Doc
+%require Label
+%require Novel
+
+newline [\r\n]+
+number [-+]?[0-9]+(\.[eE][-+]?\d+)?
+space \s+
+identifier [-a-zA-Z$._][-a-zA-Z$._0-9]*
+str "([^\\"]+|\\.)*?"
+comment //[^\n\r]*|#[^\n\r]*
