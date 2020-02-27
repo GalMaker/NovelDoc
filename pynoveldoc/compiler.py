@@ -13,22 +13,23 @@ for each in requires:
 
 parse = mk_parser(**ctx)
 
-tokens = list(run_lexer("<current file>", """
+tokens = list(run_lexer("<current file>", r"""
 NOVEL_START
 SET lfkdsk = 100  
 SET v = "lfkdsk"
 
-SAY "lfkdsk
+SAY 「lfkdsk
 lfkdsk
 fuck
-"
+」
 
-SAY A "dsk"
+A SAY 「dsk」
 
 START novel1 STORY
 END novel1
 
 NOVEL_END
+
 """))
 print(tokens)
 got = parse(State(), Tokens(tokens))
