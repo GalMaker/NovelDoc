@@ -80,5 +80,25 @@ class Choice:
     choices: t.List[ChoiceItem]
 
 
-Stmt = t.Union[Let, Label, SayWhat, Doc, Command, Choice]
-Expr = t.Union[List, Lit, Status]
+@dataclass
+class Camera:
+    loc: Location
+    action: str  # bind or unbind
+    body: t.Union[List]
+
+
+@dataclass
+class Action:
+    loc: Location
+    one: str
+    action: str
+
+
+@dataclass
+class Chapter:
+    loc: Location
+    name: t.List[str]
+
+
+Stmt = t.Union[Let, Label, SayWhat, Doc, Command, Choice, Action, Chapter]
+Expr = t.Union[List, Lit, Status, t.List, t.Dict]

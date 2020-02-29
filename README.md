@@ -12,8 +12,9 @@ Gal, Novel DSL Impl.
 - [x] Comments
 - [x] Command
 - [ ] Inject Code
-- [ ] Camera Move
-- [ ] Model Action
+- [x] Camera Move
+- [x] Model Action
+- [x] Chapter
 
 ### Say
 

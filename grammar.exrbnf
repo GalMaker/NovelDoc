@@ -16,9 +16,14 @@ Str : <str> { Lit(@0, Str(*$0)) } ;
 
 ID  : <identifier> { Lit(@0, *$0) } ;
 
-Value : Str { $0 }
-      | Num { $0 }
-      | ID  { $0 }
+List  : '[' ']'                                   { List(@0, []) }
+      | '[' separated_list(',', Value) ']'        { List(@0, $1) }
+      ;
+
+Value : Str  { $0 }
+      | Num  { $0 }
+      | ID   { $0 }
+      | List { $0 }
       ;
 
 LabelStart : Start Story ID   { Label(@0, $2, False) }
@@ -30,8 +35,8 @@ LabelEnd   : End ID             { Label(@0, $1, True) }
 Comment    : <comment> { $0 }
            ;
 
-Status     : <qstr> <sstr> { Status(@0, $0, $1) }
-           | <qstr>        { Status(@0, $0, None) }
+Status     : '[' ID ']' '(' ID ')' { Status(@0, $1, $4) }
+           | '[' ID ']'            { Status(@0, $1, None) }
            ;
 
 SayWhat    : Say <saystr>               { SayWhat(@0, None, $1, None) }
@@ -43,7 +48,7 @@ Command    : '>' ID list(Value)        { Command(@0, $1, $2) }
            | '>' ID                    { Command(@0, $1, []) }
            ;
 
-ChoiceItem : '-' <saystr> '->' <saystr> { ChoiceItem(@0, $1, $3) } ;
+ChoiceItem : <saystr> '->' <saystr> { ChoiceItem(@1, $0, $2) } ;
 
 Choice     : ChoiceToken ':' list(ChoiceItem) { Choice(@1, $2) } ;
 
@@ -55,10 +60,24 @@ Novel      : LabelStart LabelEnd           { Doc($0, None) }
 Let        : Set ID '=' Value   { Let(@0, $1, $3) }
            ;
 
+Camera     : '+' List   { Camera(@0, $0, $1) }
+           | '-' List   { Camera(@0, $0, $1) }
+           ;
+
+Action     : '[' ID ']' '->' ID { Action(@0, $1, $4) }
+           | '['    ']' '->' ID { Action(@0, None, $3) }
+           ;
+
+Chapter    : '=====' list(ID) '=====' { Chapter(@0, $1) }
+           ;
+
 Sec    : Let           { $0 }
+       | Camera        { $0 }
        | SayWhat       { $0 }
        | Command       { $0 }
        | Choice        { $0 }
        | Novel         { $0 }
        | Comment       { $0 }
+       | Action        { $0 }
+       | Chapter       { $0 }
        ;

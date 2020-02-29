@@ -35,10 +35,19 @@ END novel1
 > BGM Eff.music 
 
 Choice :
-- 「1.」  -> 「novel1」
-- 「2.」  -> 「novel2」
-- 「3.」  -> 「novel3」
+「1.」  -> 「novel1」
+「2.」  -> 「novel2」
+「3.」  -> 「novel3」
 
+- []
++ []
++ [ A ]
++ [ A, B, C ]
+
+[] -> Hello
+[ A ] -> Hello 
+
+===== Chapter One =====
 
 Story End
 
