@@ -1,4 +1,4 @@
-START : <BOF> 'NOVEL_START' list(Sec) 'NOVEL_END' { Novel($2) } ;
+START : <BOF> 'Story' 'Start' list(Sec) 'Story' 'End' { Novel($2) } ;
 
 Num : <number> { Lit(@0, int(*$0)) } ;
 
