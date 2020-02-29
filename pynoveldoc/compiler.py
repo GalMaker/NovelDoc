@@ -23,10 +23,16 @@ SET v = "lfkdsk"
 
 SAY 「lfkdsklfkdskfuck 」
 
+# comment test
+
 A SAY 「dsk」
+A [Angry] SAY 「dsk」
 
 START STORY novel1
 END novel1
+
+> BGMStop
+> BGM Eff.music 
 
 Choice :
 - 「1.」  -> 「novel1」

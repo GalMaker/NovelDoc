@@ -39,6 +39,7 @@ class SayWhat:
     loc: Location
     sm: str
     say: str
+    status: t.List[Status]
 
 
 @dataclass
@@ -67,10 +68,17 @@ class ChoiceItem:
 
 
 @dataclass
+class Status:
+    loc: Location
+    status: str
+    action: str
+
+
+@dataclass
 class Choice:
     loc: Location
     choices: t.List[ChoiceItem]
 
 
 Stmt = t.Union[Let, Label, SayWhat, Doc, Command, Choice]
-Expr = t.Union[List, Lit, ChoiceItem]
+Expr = t.Union[List, Lit, Status]

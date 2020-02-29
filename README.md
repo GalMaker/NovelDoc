@@ -4,6 +4,17 @@ Gal, Novel DSL Impl.
 
 ## Syntax
 
+- [x] Say
+- [x] Let Flag
+- [x] Choice
+- [x] Global Novel
+- [x] Create A Sub Novel
+- [x] Comments
+- [x] Command
+- [ ] Inject Code
+- [ ] Camera Move
+- [ ] Model Action
+
 ### Say
 
 ``` gal

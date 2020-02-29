@@ -8,12 +8,16 @@
 %require Novel
 %require Choice
 %require ChoiceItem
+%require Status
+%require Command
 
 number [-+]?[0-9]+(\.[eE][-+]?\d+)?
 space \s+
 identifier [a-zA-Z][-a-zA-Z._0-9]*
 str "([^\\"]+|\\.)*?"
 saystr 「([^\\「]+?|\\.)*?」
+qstr \[([^\\[]+?|\\.)*?\]
+sstr \(([^\\(]+?|\\.)*?\)
 comment //[^\n\r]*|#[^\n\r]*
 game_start_chinese 故事开始
 game_end_chinese 故事结束
