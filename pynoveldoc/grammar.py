@@ -4,11 +4,11 @@ from rbnf_rts.rbnf_linker import link
 from rbnf_rts.utils import ImmutableMap
 from rbnf_rts.lexical import *
 __all__ = ['lexicals', 'run_lexer', 'mk_parser']
-(lexicals, run_lexer) = lexer(r(number='[-+]?[0-9]+(\\.[eE][-+]?\\d+)?'), r(space='\\s+'), r(identifier='[a-zA-Z][-a-zA-Z._0-9]*'), r(str='"([^\\\\"]+|\\\\.)*?"'), r(saystr='「([^\\\\「]+?|\\\\.)*?」'), r(comment='//[^\\n\\r]*|#[^\\n\\r]*'), r(game_start_chinese='故事开始'), r(game_end_chinese='故事结束'), l['>'], l['='], ignores=['space'], reserved_map=ImmutableMap.from_dict({'Start': 'quote Start', 'START': 'quote START', 'Story': 'quote Story', 'STORY': 'quote STORY', 'End': 'quote End', 'END': 'quote END', 'Say': 'quote Say', 'SAY': 'quote SAY', 'Set': 'quote Set', 'SET': 'quote SET', '>': 'quote >', '=': 'quote ='}), numbering={'BOF': 0, 'EOF': 1, 'quote Start': 2, 'quote START': 3, 'quote Story': 4, 'quote STORY': 5, 'quote End': 6, 'quote END': 7, 'quote Say': 8, 'quote SAY': 9, 'quote Set': 10, 'quote SET': 11, 'quote >': 12, 'quote =': 13, 'number': 14, 'space': 15, 'identifier': 16, 'str': 17, 'saystr': 18, 'comment': 19, 'game_start_chinese': 20, 'game_end_chinese': 21})
+(lexicals, run_lexer) = lexer(r(number='[-+]?[0-9]+(\\.[eE][-+]?\\d+)?'), r(space='\\s+'), r(identifier='[a-zA-Z][-a-zA-Z._0-9]*'), r(str='"([^\\\\"]+|\\\\.)*?"'), r(saystr='「([^\\\\「]+?|\\\\.)*?」'), r(comment='//[^\\n\\r]*|#[^\\n\\r]*'), r(game_start_chinese='故事开始'), r(game_end_chinese='故事结束'), l['>'], l['='], l[':'], l['->'], l['-'], ignores=['space'], reserved_map=ImmutableMap.from_dict({'Start': 'quote Start', 'START': 'quote START', 'Story': 'quote Story', 'STORY': 'quote STORY', 'End': 'quote End', 'END': 'quote END', 'Say': 'quote Say', 'SAY': 'quote SAY', 'Set': 'quote Set', 'SET': 'quote SET', 'Choice': 'quote Choice', 'CHOICE': 'quote CHOICE', '>': 'quote >', '-': 'quote -', '->': 'quote ->', ':': 'quote :', '=': 'quote ='}), numbering={'BOF': 0, 'EOF': 1, 'quote Start': 2, 'quote START': 3, 'quote Story': 4, 'quote STORY': 5, 'quote End': 6, 'quote END': 7, 'quote Say': 8, 'quote SAY': 9, 'quote Set': 10, 'quote SET': 11, 'quote Choice': 12, 'quote CHOICE': 13, 'quote >': 14, 'quote -': 15, 'quote ->': 16, 'quote :': 17, 'quote =': 18, 'number': 19, 'space': 20, 'identifier': 21, 'str': 22, 'saystr': 23, 'comment': 24, 'game_start_chinese': 25, 'game_end_chinese': 26})
 
 
 
-def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
+def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel, Choice, ChoiceItem):
     from rbnf_rts.rts import AST as prim__mk__ast, Cons as prim__cons, _nil as prim__nil
 
     def lr_step_rbnf__list__0(_slot_0, prim__state, prim__tokens):
@@ -60,8 +60,243 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
             lcl_0 = lr_rbnf__list__0_try
         return lcl_0
 
+    def lr_step_rbnf__list__1(_slot_0, prim__state, prim__tokens):
+        lcl_0 = parse_ChoiceItem(prim__state, prim__tokens)
+        _slot_1_check = lcl_0
+        lcl_0 = _slot_1_check[0]
+        lcl_0 = (lcl_0 is False)
+        if lcl_0:
+            lcl_0 = _slot_1_check
+        else:
+            lcl_1 = _slot_1_check[1]
+            lcl_1 = lcl_1
+            _slot_1 = lcl_1
+            lcl_1 = _slot_0
+            lcl_2 = _slot_1
+            _py_local_t = lcl_1
+            _py_local_t.append(lcl_2)
+            lcl_1 = _py_local_t
+            _slot_local__1 = lcl_1
+            lcl_1 = (True, _slot_local__1)
+            lcl_0 = lcl_1
+        return lcl_0
+
+    def lr_loop_rbnf__list__1(_slot_0, prim__state, prim__tokens):
+        lr_rbnf__list__1_reduce = _slot_0
+        lcl_0 = prim__tokens.offset
+        _off_0 = lcl_0
+        lcl_0 = lr_step_rbnf__list__1(lr_rbnf__list__1_reduce, prim__state, prim__tokens)
+        lr_rbnf__list__1_try = lcl_0
+        lcl_0 = lr_rbnf__list__1_try[0]
+        lcl_0 = (lcl_0 is not False)
+        while lcl_0:
+            lcl_1 = prim__tokens.offset
+            _off_0 = lcl_1
+            lcl_1 = lr_rbnf__list__1_try[1]
+            lcl_1 = lcl_1
+            lr_rbnf__list__1_reduce = lcl_1
+            lcl_1 = lr_step_rbnf__list__1(lr_rbnf__list__1_reduce, prim__state, prim__tokens)
+            lr_rbnf__list__1_try = lcl_1
+            lcl_1 = lr_rbnf__list__1_try[0]
+            lcl_1 = (lcl_1 is not False)
+            lcl_0 = lcl_1
+        lcl_0 = prim__tokens.offset
+        lcl_0 = (lcl_0 is _off_0)
+        if lcl_0:
+            lcl_1 = (True, lr_rbnf__list__1_reduce)
+            lcl_0 = lcl_1
+        else:
+            lcl_0 = lr_rbnf__list__1_try
+        return lcl_0
+
+    def parse_Choice(prim__state, prim__tokens):
+        lcl_0 = parse_ChoiceToken(prim__state, prim__tokens)
+        _slot_0_check = lcl_0
+        lcl_0 = _slot_0_check[0]
+        lcl_0 = (lcl_0 is False)
+        if lcl_0:
+            lcl_0 = _slot_0_check
+        else:
+            lcl_1 = _slot_0_check[1]
+            lcl_1 = lcl_1
+            _slot_0 = lcl_1
+            lcl_1 = 17
+            try:
+                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                if (_py_local_tk.idint is lcl_1):
+                    prim__tokens.offset += 1
+                else:
+                    _py_local_tk = None
+            except IndexError:
+                _py_local_tk = None
+            lcl_1 = _py_local_tk
+            _slot_1 = lcl_1
+            lcl_1 = (_slot_1 is None)
+            if lcl_1:
+                lcl_2 = prim__tokens.offset
+                lcl_2 = (lcl_2, 'quote : not match')
+                lcl_2 = prim__cons(lcl_2, prim__nil)
+                lcl_2 = lcl_2
+                lcl_2 = (False, lcl_2)
+                lcl_1 = lcl_2
+            else:
+                lcl_2 = parse_rbnf__list__1(prim__state, prim__tokens)
+                _slot_2_check = lcl_2
+                lcl_2 = _slot_2_check[0]
+                lcl_2 = (lcl_2 is False)
+                if lcl_2:
+                    lcl_2 = _slot_2_check
+                else:
+                    lcl_3 = _slot_2_check[1]
+                    lcl_3 = lcl_3
+                    _slot_2 = lcl_3
+                    lcl_3 = (_slot_1.lineno, _slot_1.colno, _slot_1.filename)
+                    lcl_4 = _slot_2
+                    lcl_3 = Choice(lcl_3, lcl_4)
+                    _slot_local__1 = lcl_3
+                    lcl_3 = (True, _slot_local__1)
+                    lcl_2 = lcl_3
+                lcl_1 = lcl_2
+            lcl_0 = lcl_1
+        return lcl_0
+
+    def parse_ChoiceItem(prim__state, prim__tokens):
+        lcl_0 = 15
+        try:
+            _py_local_tk = prim__tokens.array[prim__tokens.offset]
+            if (_py_local_tk.idint is lcl_0):
+                prim__tokens.offset += 1
+            else:
+                _py_local_tk = None
+        except IndexError:
+            _py_local_tk = None
+        lcl_0 = _py_local_tk
+        _slot_0 = lcl_0
+        lcl_0 = (_slot_0 is None)
+        if lcl_0:
+            lcl_1 = prim__tokens.offset
+            lcl_1 = (lcl_1, 'quote - not match')
+            lcl_1 = prim__cons(lcl_1, prim__nil)
+            lcl_1 = lcl_1
+            lcl_1 = (False, lcl_1)
+            lcl_0 = lcl_1
+        else:
+            lcl_1 = 23
+            try:
+                _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                if (_py_local_tk.idint is lcl_1):
+                    prim__tokens.offset += 1
+                else:
+                    _py_local_tk = None
+            except IndexError:
+                _py_local_tk = None
+            lcl_1 = _py_local_tk
+            _slot_1 = lcl_1
+            lcl_1 = (_slot_1 is None)
+            if lcl_1:
+                lcl_2 = prim__tokens.offset
+                lcl_2 = (lcl_2, 'saystr not match')
+                lcl_2 = prim__cons(lcl_2, prim__nil)
+                lcl_2 = lcl_2
+                lcl_2 = (False, lcl_2)
+                lcl_1 = lcl_2
+            else:
+                lcl_2 = 16
+                try:
+                    _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                    if (_py_local_tk.idint is lcl_2):
+                        prim__tokens.offset += 1
+                    else:
+                        _py_local_tk = None
+                except IndexError:
+                    _py_local_tk = None
+                lcl_2 = _py_local_tk
+                _slot_2 = lcl_2
+                lcl_2 = (_slot_2 is None)
+                if lcl_2:
+                    lcl_3 = prim__tokens.offset
+                    lcl_3 = (lcl_3, 'quote -> not match')
+                    lcl_3 = prim__cons(lcl_3, prim__nil)
+                    lcl_3 = lcl_3
+                    lcl_3 = (False, lcl_3)
+                    lcl_2 = lcl_3
+                else:
+                    lcl_3 = 23
+                    try:
+                        _py_local_tk = prim__tokens.array[prim__tokens.offset]
+                        if (_py_local_tk.idint is lcl_3):
+                            prim__tokens.offset += 1
+                        else:
+                            _py_local_tk = None
+                    except IndexError:
+                        _py_local_tk = None
+                    lcl_3 = _py_local_tk
+                    _slot_3 = lcl_3
+                    lcl_3 = (_slot_3 is None)
+                    if lcl_3:
+                        lcl_4 = prim__tokens.offset
+                        lcl_4 = (lcl_4, 'saystr not match')
+                        lcl_4 = prim__cons(lcl_4, prim__nil)
+                        lcl_4 = lcl_4
+                        lcl_4 = (False, lcl_4)
+                        lcl_3 = lcl_4
+                    else:
+                        lcl_4 = (_slot_0.lineno, _slot_0.colno, _slot_0.filename)
+                        lcl_5 = _slot_1
+                        lcl_6 = _slot_3
+                        lcl_4 = ChoiceItem(lcl_4, lcl_5, lcl_6)
+                        _slot_local__1 = lcl_4
+                        lcl_4 = (True, _slot_local__1)
+                        lcl_3 = lcl_4
+                    lcl_2 = lcl_3
+                lcl_1 = lcl_2
+            lcl_0 = lcl_1
+        return lcl_0
+
+    def parse_ChoiceToken(prim__state, prim__tokens):
+        lcl_0 = prim__tokens.offset
+        _off_0 = lcl_0
+        lcl_0 = (len(prim__tokens.array) > (prim__tokens.offset + 0))
+        if lcl_0:
+            lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
+            lcl_2 = lcl_2.idint
+            if (lcl_2 == 12):
+                _py_local_i = prim__tokens.offset
+                _py_local_t = prim__tokens.array[_py_local_i]
+                prim__tokens.offset = (_py_local_i + 1)
+                lcl_3 = _py_local_t
+                _slot_0 = lcl_3
+                lcl_3 = _slot_0
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_1 = lcl_3
+            elif (lcl_2 == 13):
+                _py_local_i = prim__tokens.offset
+                _py_local_t = prim__tokens.array[_py_local_i]
+                prim__tokens.offset = (_py_local_i + 1)
+                lcl_3 = _py_local_t
+                _slot_0 = lcl_3
+                lcl_3 = _slot_0
+                _slot_local__1 = lcl_3
+                lcl_3 = (True, _slot_local__1)
+                lcl_1 = lcl_3
+            else:
+                lcl_3 = (_off_0, 'ChoiceToken lookahead failed')
+                lcl_3 = prim__cons(lcl_3, prim__nil)
+                lcl_3 = lcl_3
+                lcl_3 = (False, lcl_3)
+                lcl_1 = lcl_3
+            lcl_0 = lcl_1
+        else:
+            lcl_1 = (_off_0, 'ChoiceToken got EOF')
+            lcl_1 = prim__cons(lcl_1, prim__nil)
+            lcl_1 = lcl_1
+            lcl_1 = (False, lcl_1)
+            lcl_0 = lcl_1
+        return lcl_0
+
     def parse_Command(prim__state, prim__tokens):
-        lcl_0 = 12
+        lcl_0 = 14
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -144,7 +379,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
         return lcl_0
 
     def parse_ID(prim__state, prim__tokens):
-        lcl_0 = 16
+        lcl_0 = 21
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -265,7 +500,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                 lcl_2 = _slot_1_check[1]
                 lcl_2 = lcl_2
                 _slot_1 = lcl_2
-                lcl_2 = 13
+                lcl_2 = 18
                 try:
                     _py_local_tk = prim__tokens.array[prim__tokens.offset]
                     if (_py_local_tk.idint is lcl_2):
@@ -561,7 +796,65 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                             lcl_5 = lcl_6
                         lcl_4 = lcl_5
                     lcl_2 = lcl_4
-                elif (lcl_3 == 16):
+                elif (lcl_3 == 13):
+                    lcl_4 = parse_rbnf__list__0(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = parse_LabelEnd(prim__state, prim__tokens)
+                        _slot_2_check = lcl_5
+                        lcl_5 = _slot_2_check[0]
+                        lcl_5 = (lcl_5 is False)
+                        if lcl_5:
+                            lcl_5 = _slot_2_check
+                        else:
+                            lcl_6 = _slot_2_check[1]
+                            lcl_6 = lcl_6
+                            _slot_2 = lcl_6
+                            lcl_6 = _slot_0
+                            lcl_7 = _slot_1
+                            lcl_6 = Doc(lcl_6, lcl_7)
+                            _slot_local__1 = lcl_6
+                            lcl_6 = (True, _slot_local__1)
+                            lcl_5 = lcl_6
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 14):
+                    lcl_4 = parse_rbnf__list__0(prim__state, prim__tokens)
+                    _slot_1_check = lcl_4
+                    lcl_4 = _slot_1_check[0]
+                    lcl_4 = (lcl_4 is False)
+                    if lcl_4:
+                        lcl_4 = _slot_1_check
+                    else:
+                        lcl_5 = _slot_1_check[1]
+                        lcl_5 = lcl_5
+                        _slot_1 = lcl_5
+                        lcl_5 = parse_LabelEnd(prim__state, prim__tokens)
+                        _slot_2_check = lcl_5
+                        lcl_5 = _slot_2_check[0]
+                        lcl_5 = (lcl_5 is False)
+                        if lcl_5:
+                            lcl_5 = _slot_2_check
+                        else:
+                            lcl_6 = _slot_2_check[1]
+                            lcl_6 = lcl_6
+                            _slot_2 = lcl_6
+                            lcl_6 = _slot_0
+                            lcl_7 = _slot_1
+                            lcl_6 = Doc(lcl_6, lcl_7)
+                            _slot_local__1 = lcl_6
+                            lcl_6 = (True, _slot_local__1)
+                            lcl_5 = lcl_6
+                        lcl_4 = lcl_5
+                    lcl_2 = lcl_4
+                elif (lcl_3 == 21):
                     lcl_4 = parse_rbnf__list__0(prim__state, prim__tokens)
                     _slot_1_check = lcl_4
                     lcl_4 = _slot_1_check[0]
@@ -607,7 +900,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
         return lcl_0
 
     def parse_Num(prim__state, prim__tokens):
-        lcl_0 = 14
+        lcl_0 = 19
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -758,7 +1051,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                     lcl_4 = _slot_0_check[1]
                     lcl_4 = lcl_4
                     _slot_0 = lcl_4
-                    lcl_4 = 18
+                    lcl_4 = 23
                     try:
                         _py_local_tk = prim__tokens.array[prim__tokens.offset]
                         if (_py_local_tk.idint is lcl_4):
@@ -797,7 +1090,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                     lcl_4 = _slot_0_check[1]
                     lcl_4 = lcl_4
                     _slot_0 = lcl_4
-                    lcl_4 = 18
+                    lcl_4 = 23
                     try:
                         _py_local_tk = prim__tokens.array[prim__tokens.offset]
                         if (_py_local_tk.idint is lcl_4):
@@ -825,7 +1118,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                         lcl_4 = lcl_5
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 16):
+            elif (lcl_2 == 21):
                 lcl_3 = parse_ID(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -846,7 +1139,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                         lcl_5 = _slot_1_check[1]
                         lcl_5 = lcl_5
                         _slot_1 = lcl_5
-                        lcl_5 = 18
+                        lcl_5 = 23
                         try:
                             _py_local_tk = prim__tokens.array[prim__tokens.offset]
                             if (_py_local_tk.idint is lcl_5):
@@ -995,6 +1288,38 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
             elif (lcl_2 == 12):
+                lcl_3 = parse_Choice(prim__state, prim__tokens)
+                _slot_0_check = lcl_3
+                lcl_3 = _slot_0_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_0_check
+                else:
+                    lcl_4 = _slot_0_check[1]
+                    lcl_4 = lcl_4
+                    _slot_0 = lcl_4
+                    lcl_4 = _slot_0
+                    _slot_local__1 = lcl_4
+                    lcl_4 = (True, _slot_local__1)
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
+            elif (lcl_2 == 13):
+                lcl_3 = parse_Choice(prim__state, prim__tokens)
+                _slot_0_check = lcl_3
+                lcl_3 = _slot_0_check[0]
+                lcl_3 = (lcl_3 is False)
+                if lcl_3:
+                    lcl_3 = _slot_0_check
+                else:
+                    lcl_4 = _slot_0_check[1]
+                    lcl_4 = lcl_4
+                    _slot_0 = lcl_4
+                    lcl_4 = _slot_0
+                    _slot_local__1 = lcl_4
+                    lcl_4 = (True, _slot_local__1)
+                    lcl_3 = lcl_4
+                lcl_1 = lcl_3
+            elif (lcl_2 == 14):
                 lcl_3 = parse_Command(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -1010,7 +1335,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 16):
+            elif (lcl_2 == 21):
                 lcl_3 = parse_SayWhat(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -1230,7 +1555,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                         lcl_4 = lcl_5
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 21):
+            elif (lcl_2 == 26):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -1318,7 +1643,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                         lcl_4 = lcl_5
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 20):
+            elif (lcl_2 == 25):
                 _py_local_i = prim__tokens.offset
                 _py_local_t = prim__tokens.array[_py_local_i]
                 prim__tokens.offset = (_py_local_i + 1)
@@ -1344,7 +1669,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
         return lcl_0
 
     def parse_Str(prim__state, prim__tokens):
-        lcl_0 = 17
+        lcl_0 = 22
         try:
             _py_local_tk = prim__tokens.array[prim__tokens.offset]
             if (_py_local_tk.idint is lcl_0):
@@ -1381,7 +1706,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
         if lcl_0:
             lcl_2 = prim__tokens.array[(prim__tokens.offset + 0)]
             lcl_2 = lcl_2.idint
-            if (lcl_2 == 17):
+            if (lcl_2 == 22):
                 lcl_3 = parse_Str(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -1397,7 +1722,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 14):
+            elif (lcl_2 == 19):
                 lcl_3 = parse_Num(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -1413,7 +1738,7 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
                     lcl_4 = (True, _slot_local__1)
                     lcl_3 = lcl_4
                 lcl_1 = lcl_3
-            elif (lcl_2 == 16):
+            elif (lcl_2 == 21):
                 lcl_3 = parse_ID(prim__state, prim__tokens)
                 _slot_0_check = lcl_3
                 lcl_3 = _slot_0_check[0]
@@ -1459,6 +1784,24 @@ def mk_parser(Lit, Let, SayWhat, Str, Doc, Label, Novel):
             lcl_1 = [lcl_1]
             _slot_local__1 = lcl_1
             lcl_1 = lr_loop_rbnf__list__0(_slot_local__1, prim__state, prim__tokens)
+            lcl_0 = lcl_1
+        return lcl_0
+
+    def parse_rbnf__list__1(prim__state, prim__tokens):
+        lcl_0 = parse_ChoiceItem(prim__state, prim__tokens)
+        _slot_0_check = lcl_0
+        lcl_0 = _slot_0_check[0]
+        lcl_0 = (lcl_0 is False)
+        if lcl_0:
+            lcl_0 = _slot_0_check
+        else:
+            lcl_1 = _slot_0_check[1]
+            lcl_1 = lcl_1
+            _slot_0 = lcl_1
+            lcl_1 = _slot_0
+            lcl_1 = [lcl_1]
+            _slot_local__1 = lcl_1
+            lcl_1 = lr_loop_rbnf__list__1(_slot_local__1, prim__state, prim__tokens)
             lcl_0 = lcl_1
         return lcl_0
     return parse_START

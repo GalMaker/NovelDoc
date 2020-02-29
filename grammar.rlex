@@ -6,6 +6,8 @@
 %require Doc
 %require Label
 %require Novel
+%require Choice
+%require ChoiceItem
 
 number [-+]?[0-9]+(\.[eE][-+]?\d+)?
 space \s+

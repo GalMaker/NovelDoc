@@ -56,8 +56,21 @@ class Command:
 
 @dataclass
 class Novel:
-    stmts: t.List[Stmt]
+    lines: t.List[Stmt]
 
 
-Stmt = t.Union[Let, Label, SayWhat, Doc, Command]
-Expr = t.Union[List, Lit]
+@dataclass
+class ChoiceItem:
+    loc: Location
+    choice_text: str
+    point_to: str
+
+
+@dataclass
+class Choice:
+    loc: Location
+    choices: t.List[ChoiceItem]
+
+
+Stmt = t.Union[Let, Label, SayWhat, Doc, Command, Choice]
+Expr = t.Union[List, Lit, ChoiceItem]

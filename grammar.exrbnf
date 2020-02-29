@@ -5,6 +5,8 @@ Story : 'Story' { $0 } | 'STORY' { $0 } ;
 End   : 'End'   { $0 } | 'END' { $0 } ;
 Say   : 'Say'   { $0 } | 'SAY'   { $0 } ;
 Set   : 'Set'   { $0 } | 'SET'   { $0 } ;
+ChoiceToken : 'Choice'   { $0 } | 'CHOICE'   { $0 } ;
+
 StoryStart : Story Start | <game_start_chinese> { $0 };
 StoryEnd   : Story End   | <game_end_chinese> { $0 };
 
@@ -32,6 +34,10 @@ SayWhat    : Say <saystr>        { SayWhat(@0, None, $1) }
 Command    : '>' ID         { Command(@0, $1, []) }
            ;
 
+ChoiceItem : '-' <saystr> '->' <saystr> { ChoiceItem(@0, $1, $3) } ;
+
+Choice     : ChoiceToken ':' list(ChoiceItem) { Choice(@1, $2) } ;
+
 
 Novel      : LabelStart LabelEnd           { Doc($0, None) }
            | LabelStart list(Sec) LabelEnd { Doc($0, $1)   }
@@ -43,5 +49,6 @@ Let        : Set ID '=' Value   { Let(@0, $1, $3) }
 Sec    : Let           { $0 }
        | SayWhat       { $0 }
        | Command       { $0 }
+       | Choice        { $0 }
        | Novel         { $0 }
        ;

@@ -17,6 +17,7 @@ parse = mk_parser(**ctx)
 
 tokens = list(run_lexer("<current file>", r"""
 Story Start
+
 SET lfkdsk = 100  
 SET v = "lfkdsk"
 
@@ -26,6 +27,12 @@ A SAY 「dsk」
 
 START STORY novel1
 END novel1
+
+Choice :
+- 「1.」  -> 「novel1」
+- 「2.」  -> 「novel2」
+- 「3.」  -> 「novel3」
+
 
 Story End
 
