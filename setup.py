@@ -7,7 +7,7 @@ with Path('README.md').open() as readme:
 version = "0.1"
 
 setup(
-    name='pysexpr',
+    name='pynoveldoc',
     version=version if isinstance(version, str) else str(version),
     keywords=
     "Python, RBNF.hs, DSL, Novel, GalGame",
