@@ -1,4 +1,12 @@
-START : <BOF> 'Story' 'Start' list(Sec) 'Story' 'End' { Novel($2) } ;
+START : <BOF> StoryStart list(Sec) StoryEnd { Novel($2) } ;
+
+Start : 'Start' { $0 } | 'START' { $0 } ;
+Story : 'Story' { $0 } | 'STORY' { $0 } ;
+End   : 'End'   { $0 } | 'END' { $0 } ;
+Say   : 'Say'   { $0 } | 'SAY'   { $0 } ;
+Set   : 'Set'   { $0 } | 'SET'   { $0 } ;
+StoryStart : Story Start | <game_start_chinese> { $0 };
+StoryEnd   : Story End   | <game_end_chinese> { $0 };
 
 Num : <number> { Lit(@0, int(*$0)) } ;
 
@@ -11,14 +19,14 @@ Value : Str { $0 }
       | ID  { $0 }
       ;
 
-LabelStart : 'START' ID 'STORY'   { Label(@0, $1, False) }
+LabelStart : Start Story ID   { Label(@0, $2, False) }
            ;
 
-LabelEnd   : 'END' ID             { Label(@0, $1, True) }
+LabelEnd   : End ID             { Label(@0, $1, True) }
            ;
 
-Say        : 'SAY' <saystr>        { Say(@0, None, $1) }
-           | ID 'SAY' <saystr>     { Say(@1, $0, $2)   }
+SayWhat    : Say <saystr>        { SayWhat(@0, None, $1) }
+           | ID Say <saystr>     { SayWhat(@1, $0, $2)   }
            ;
 
 Command    : '>' ID         { Command(@0, $1, []) }
@@ -29,11 +37,11 @@ Novel      : LabelStart LabelEnd           { Doc($0, None) }
            | LabelStart list(Sec) LabelEnd { Doc($0, $1)   }
            ;
 
-Let        : 'SET' ID '=' Value   { Let(@0, $1, $3) }
+Let        : Set ID '=' Value   { Let(@0, $1, $3) }
            ;
 
 Sec    : Let           { $0 }
-       | Say           { $0 }
+       | SayWhat       { $0 }
        | Command       { $0 }
        | Novel         { $0 }
        ;

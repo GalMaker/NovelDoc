@@ -1,7 +1,7 @@
 %ignore space
 %require Lit
 %require Let
-%require Say
+%require SayWhat
 %require Str
 %require Doc
 %require Label
@@ -13,3 +13,5 @@ identifier [a-zA-Z][-a-zA-Z._0-9]*
 str "([^\\"]+|\\.)*?"
 saystr 「([^\\「]+?|\\.)*?」
 comment //[^\n\r]*|#[^\n\r]*
+game_start_chinese 故事开始
+game_end_chinese 故事结束

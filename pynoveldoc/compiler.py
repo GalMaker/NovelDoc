@@ -24,14 +24,14 @@ SAY 「lfkdsklfkdskfuck 」
 
 A SAY 「dsk」
 
-START novel1 STORY
+START STORY novel1
 END novel1
 
 Story End
 
 """))
 
-print(tokens)
+pprint(tokens)
 install_extras(exclude=['django', 'ipython'])
 got = parse(State(), Tokens(tokens))
 pprint(got)

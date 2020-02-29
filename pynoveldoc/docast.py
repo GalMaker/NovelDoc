@@ -35,7 +35,7 @@ class List:
 
 
 @dataclass
-class Say:
+class SayWhat:
     loc: Location
     sm: str
     say: str
@@ -59,5 +59,5 @@ class Novel:
     stmts: t.List[Stmt]
 
 
-Stmt = t.Union[Let, Label, Say, Doc, Command]
+Stmt = t.Union[Let, Label, SayWhat, Doc, Command]
 Expr = t.Union[List, Lit]
