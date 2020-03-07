@@ -2,7 +2,6 @@ from rbnf_rts.routine import DQString
 from rbnf_rts.rts import Tokens, State
 from pynoveldoc import docast
 from pynoveldoc.grammar import run_lexer, mk_parser
-from prettyprinter import pprint, install_extras
 
 ctx = {'Str': DQString}
 co = mk_parser.__code__
@@ -12,48 +11,38 @@ for each in requires:
     if each not in ctx:
         ctx[each] = getattr(docast, each)
 
+_parse = mk_parser(**ctx)
 
-parse = mk_parser(**ctx)
+def _find_n(s: str, ch, n: int):
+    since = 0
+    for i in range(0, n - 1):
+        since = s.find(ch, since)
 
-tokens = list(run_lexer("<current file>", r"""
-Story Start
+    return s[since:s.find(ch, since)]
 
-SET lfkdsk = 100  
-SET v = "lfkdsk"
 
-SAY 「lfkdsklfkdskfuck 」
+def parse(text: str, filename: str = "unknown"):
+    tokens = list(run_lexer(filename, text))
 
-# comment test
+    res = _parse(State(), Tokens(tokens))
+    if res[0]:
+        return res[1]
+    msgs = []
+    assert res[1]
+    maxline = 0
+    for each in res[1]:
+        i, msg = each
+        token = tokens[i]
+        lineno = token.lineno
+        maxline = max(lineno, maxline)
+        colno = token.colno
+        msgs.append(f"Line {lineno + 1}, column {colno}, {msg}")
 
-A SAY 「dsk」
-A [Angry] SAY 「dsk」
-
-START STORY novel1
-END novel1
-
-> BGMStop
-> BGM Eff.music 
-
-Choice :
-「1.」  -> 「novel1」
-「2.」  -> 「novel2」
-「3.」  -> 「novel3」
-
-- []
-+ []
-+ [ A ]
-+ [ A, B, C ]
-
-[] -> Hello
-[ A ] -> Hello 
-
-===== Chapter One =====
-
-Story End
-
-"""))
-
-pprint(tokens)
-install_extras(exclude=['django', 'ipython'])
-got = parse(State(), Tokens(tokens))
-pprint(got)
+    e = SyntaxError()
+    e.lineno = maxline + 1
+    e.msg = '\n'.join(msgs)
+    e.filename = filename
+    off = token.offset
+    e.offset = off
+    e.text = text[:text.find('\n', off)]
+    raise e
