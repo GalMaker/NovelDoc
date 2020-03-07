@@ -1,5 +1,5 @@
-from pynoveldoc.compiler import parse
-from pynoveldoc.serialize import to_dict, from_dict
+from noveldoc.compiler import parse
+from noveldoc.serialize import to_dict, from_dict
 from prettyprinter import pprint, install_extras
 
 install_extras(exclude=["django", "ipython"])

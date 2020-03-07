@@ -168,3 +168,6 @@ dmypy.json
 .pyre/
 
 # End of https://www.gitignore.io/api/macos,python
+
+# purescript-python
+.pure-py/

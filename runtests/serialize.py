@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from pynoveldoc.serialize import to_dict, from_dict, dict_support
+from noveldoc.serialize import to_dict, from_dict, dict_support
 
 
 @dict_support

@@ -1,7 +1,7 @@
 from rbnf_rts.routine import DQString
 from rbnf_rts.rts import Tokens, State
-from pynoveldoc import docast
-from pynoveldoc.grammar import run_lexer, mk_parser, lexicals
+from noveldoc import docast
+from noveldoc.grammar import run_lexer, mk_parser, lexicals
 
 ctx = {'Str': DQString}
 co = mk_parser.__code__

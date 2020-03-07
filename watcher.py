@@ -11,7 +11,7 @@ def watcher():
                 new_rlex = rlex_f.read()
                 if new_rbnf != rbnf or new_rlex != rlex:
                     os.system(
-                        'rbnf-pygen grammar.exrbnf grammar.rlex pynoveldoc/grammar.py --k 1 --traceback'
+                        'rbnf-pygen grammar.exrbnf grammar.rlex noveldoc/grammar.py --k 1 --traceback'
                     )
                     rbnf = new_rbnf
                     rlex = new_rlex

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import typing as t
 from dataclasses import dataclass
-from pynoveldoc.serialize import dict_support
+from noveldoc.serialize import dict_support
 
 Location = t.Tuple[int, int, str]
 DEREF = "!"
