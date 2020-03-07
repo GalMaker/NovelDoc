@@ -1,7 +1,7 @@
 from rbnf_rts.routine import DQString
 from rbnf_rts.rts import Tokens, State
 from pynoveldoc import docast
-from pynoveldoc.grammar import run_lexer, mk_parser
+from pynoveldoc.grammar import run_lexer, mk_parser, lexicals
 
 ctx = {'Str': DQString}
 co = mk_parser.__code__
@@ -21,8 +21,20 @@ def _find_n(s: str, ch, n: int):
     return s[since:s.find(ch, since)]
 
 
+def case_insensitive(gen):
+    ident = lexicals['identifier']
+    keywords = {'start', 'end', 'story', 'say', 'set', 'choice'}
+    keywords = {k: 'quote {}'.format(k) for k in keywords}
+    for each in gen:
+        if each.idint is ident:
+            value = each.value
+            lower = value.lower()
+            if value != lower and lower in keywords:
+                each.idint = lexicals[keywords[lower]]
+        yield each
+
 def parse(text: str, filename: str = "unknown"):
-    tokens = list(run_lexer(filename, text))
+    tokens = list(case_insensitive(run_lexer(filename, text)))
 
     res = _parse(State(), Tokens(tokens))
     if res[0]:

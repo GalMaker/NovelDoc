@@ -1,11 +1,12 @@
 START : <BOF> StoryStart list(Sec) StoryEnd { Novel($2) } ;
 
-Start : 'Start' { $0 } | 'START' { $0 } ;
-Story : 'Story' { $0 } | 'STORY' { $0 } ;
-End   : 'End'   { $0 } | 'END' { $0 } ;
-Say   : 'Say'   { $0 } | 'SAY'   { $0 } ;
-Set   : 'Set'   { $0 } | 'SET'   { $0 } ;
-ChoiceToken : 'Choice'   { $0 } | 'CHOICE'   { $0 } ;
+Start : 'start' { $0 } ;
+Story : 'story' { $0 } ;
+End   : 'end'   { $0 } ;
+Say   : 'say'   { $0 } ;
+Set   : 'set'   { $0 } ;
+
+ChoiceToken : 'choice'   { $0 };
 
 StoryStart : Story Start | <game_start_chinese> { $0 };
 StoryEnd   : Story End   | <game_end_chinese> { $0 };
@@ -48,7 +49,7 @@ Command    : '>' ID list(Value)        { Command(@0, $1, $2) }
            | '>' ID                    { Command(@0, $1, []) }
            ;
 
-ChoiceItem : <saystr> '->' <saystr> { ChoiceItem(@1, $0, $2) } ;
+ChoiceItem : <saystr> '->' ID { ChoiceItem(@1, $0, $2) } ;
 
 Choice     : ChoiceToken ':' list(ChoiceItem) { Choice(@1, $2) } ;
 
