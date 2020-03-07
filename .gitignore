@@ -2,6 +2,7 @@
 dev_test/
 Digraph.gv*
 .idea/
+.vscode/
 .spyproject/
 **.egg-info/
 dist/
