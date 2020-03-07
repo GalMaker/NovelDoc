@@ -17,14 +17,15 @@ _support(int)
 _support(float)
 _support(complex)
 _support(str)
+_support(bool)
 _support(None.__class__)
 
 
 def _list_support(x):
     return [to_dict(e) for e in x]
 
-
 dispatch_to_dict[list.__module__][list.__name__] = _list_support
+dispatch_to_dict[tuple.__module__][tuple.__name__] = _list_support
 
 
 def to_dict(o, dispatch_to_dict=dispatch_to_dict):
@@ -41,7 +42,7 @@ def from_dict(data, dispatch_from_dict=dispatch_from_dict):
         if cls is not None:
             cls_mod, cls_name = cls
             return dispatch_from_dict[cls_mod][cls_name](data)
-    elif isinstance(data, list):
+    elif isinstance(data, (list, tuple)):
         return list(map(from_dict, data))
     return data
 

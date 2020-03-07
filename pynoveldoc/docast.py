@@ -2,18 +2,28 @@ from __future__ import annotations
 
 import typing as t
 from dataclasses import dataclass
+from pynoveldoc.serialize import dict_support
 
 Location = t.Tuple[int, int, str]
 DEREF = "!"
-WILDCARD = '_'
+WILDCARD = "_"
 
 
+@dict_support
 @dataclass
 class Lit:
     loc: Location
     value: object
 
+@dict_support
+@dataclass
+class Var:
+    loc: Location
+    name: str
 
+
+
+@dict_support
 @dataclass
 class Let:
     loc: Location
@@ -21,6 +31,7 @@ class Let:
     value: object
 
 
+@dict_support
 @dataclass
 class Label:
     loc: Location
@@ -28,17 +39,22 @@ class Label:
     is_end: bool
 
 
+@dict_support
 @dataclass
 class List:
     loc: Location
     elts: t.List[Expr]
 
+
+@dict_support
 @dataclass
 class Call:
     loc: Location
     fn: Expr
-    args : t.List[Expr]
+    args: t.List[Expr]
 
+
+@dict_support
 @dataclass
 class SayWhat:
     loc: Location
@@ -47,12 +63,14 @@ class SayWhat:
     status: t.List[Status]
 
 
+@dict_support
 @dataclass
 class Doc:
     label: Label
     stmts: t.List[Stmt]
 
 
+@dict_support
 @dataclass
 class Command:
     loc: Location
@@ -60,11 +78,13 @@ class Command:
     args: t.List[Expr]
 
 
+@dict_support
 @dataclass
 class Novel:
     lines: t.List[Stmt]
 
 
+@dict_support
 @dataclass
 class ChoiceItem:
     loc: Location
@@ -72,6 +92,7 @@ class ChoiceItem:
     point_to: str
 
 
+@dict_support
 @dataclass
 class Status:
     loc: Location
@@ -79,12 +100,14 @@ class Status:
     action: str
 
 
+@dict_support
 @dataclass
 class Choice:
     loc: Location
     choices: t.List[ChoiceItem]
 
 
+@dict_support
 @dataclass
 class Camera:
     loc: Location
@@ -92,6 +115,7 @@ class Camera:
     body: t.Union[List]
 
 
+@dict_support
 @dataclass
 class Action:
     loc: Location
@@ -99,6 +123,7 @@ class Action:
     action: str
 
 
+@dict_support
 @dataclass
 class Chapter:
     loc: Location
@@ -106,4 +131,4 @@ class Chapter:
 
 
 Stmt = t.Union[Let, Label, SayWhat, Doc, Command, Choice, Action, Chapter]
-Expr = t.Union[List, Lit, Status, t.List, t.Dict]
+Expr = t.Union[List, Lit, Status, t.List, t.Dict, Var]

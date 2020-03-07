@@ -1,7 +1,9 @@
 from pynoveldoc.compiler import parse
+from pynoveldoc.serialize import to_dict, from_dict
 from prettyprinter import pprint, install_extras
 
 install_extras(exclude=["django", "ipython"])
+
 got = parse(
     filename=__file__,
     text=r"""
@@ -44,5 +46,7 @@ Story End
 """,
 )
 
-pprint(got)
+# pprint(got)
+
+pprint(from_dict(to_dict(got)))
 

@@ -13,10 +13,12 @@
 %require Camera
 %require List
 %require Call
+%require Var
 %require Action
 %require Chapter
 
-number [-+]?[0-9]+(\.[eE][-+]?\d+)?
+float [-+]?[0-9]+\.\d+([eE][-+]?\d+)?|[-+]?[0-9]+[eE][-+]?\d+
+int [-+]?\d+
 space \s+
 identifier [a-zA-Z\u4e00-\u9fa5][-a-zA-Z._0-9\u4e00-\u9fa5]*
 str "([^\\"]+|\\.)*?"
