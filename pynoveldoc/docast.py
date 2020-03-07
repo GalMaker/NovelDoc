@@ -33,6 +33,11 @@ class List:
     loc: Location
     elts: t.List[Expr]
 
+@dataclass
+class Call:
+    loc: Location
+    fn: Expr
+    args : t.List[Expr]
 
 @dataclass
 class SayWhat:

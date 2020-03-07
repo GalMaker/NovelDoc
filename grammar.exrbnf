@@ -9,7 +9,7 @@ Set   : 'set'   { $0 } ;
 ChoiceToken : 'choice'   { $0 };
 
 StoryStart : Story Start | <game_start_chinese> { $0 };
-StoryEnd   : Story End   | <game_end_chinese> { $0 };
+StoryEnd   : Story End   | <game_end_chinese>   { $0 };
 
 Num : <number> { Lit(@0, int(*$0)) } ;
 
@@ -17,14 +17,21 @@ Str : <str> { Lit(@0, Str(*$0)) } ;
 
 ID  : <identifier> { Lit(@0, *$0) } ;
 
-List  : '[' ']'                                   { List(@0, []) }
-      | '[' separated_list(',', Value) ']'        { List(@0, $1) }
+List  : '[' ']'                                        { List(@0, []) }
+      | '[' separated_list(',', Expression) ']'        { List(@0, $1) }
       ;
 
-Value : Str  { $0 }
+
+Expression :  Expression '('  ')'                                 { Call(@1, $0, []) }
+           |  Expression '(' separated_list(',', Expression) ')'  { Call(@1, $0, $2) }
+           |  Atom { $0 }
+           ;
+
+Atom :  Str  { $0 }
       | Num  { $0 }
       | ID   { $0 }
       | List { $0 }
+      | '(' Expression ')' { $1 }
       ;
 
 LabelStart : Start Story ID   { Label(@0, $2, False) }
@@ -45,7 +52,7 @@ SayWhat    : Say <saystr>               { SayWhat(@0, None, $1, None) }
            | ID Status Say <saystr>     { SayWhat(@2, $0, $3, $1)     }
            ;
 
-Command    : '>' ID list(Value)        { Command(@0, $1, $2) }
+Command    : '>' ID list(Expression)        { Command(@0, $1, $2) }
            | '>' ID                    { Command(@0, $1, []) }
            ;
 
@@ -58,7 +65,7 @@ Novel      : LabelStart LabelEnd           { Doc($0, None) }
            | LabelStart list(Sec) LabelEnd { Doc($0, $1)   }
            ;
 
-Let        : Set ID '=' Value   { Let(@0, $1, $3) }
+Let        : Set ID '=' Expression   { Let(@0, $1, $3) }
            ;
 
 Camera     : '+' List   { Camera(@0, $0, $1) }

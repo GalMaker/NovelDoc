@@ -5,7 +5,7 @@ got = parse(filename=__file__, text=r"""
 Story Start
 
 SET lfkdsk = 100  
-SET v = "lfkdsk"
+SET v = script(1, "lfkdsk")
 
 SAY 「lfkdsklfkdskfuck 」
 

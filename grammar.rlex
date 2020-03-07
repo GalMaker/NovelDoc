@@ -12,6 +12,7 @@
 %require Command
 %require Camera
 %require List
+%require Call
 %require Action
 %require Chapter
 
