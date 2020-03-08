@@ -25,7 +25,7 @@ class Var:
 
 @dict_support
 @dataclass
-class Let:
+class Set:
     loc: Location
     name: str
     value: object
@@ -130,5 +130,5 @@ class Chapter:
     name: t.List[str]
 
 
-Stmt = t.Union[Let, Label, SayWhat, Doc, Command, Choice, Action, Chapter]
+Stmt = t.Union[Set, Label, SayWhat, Doc, Command, Choice, Action, Chapter]
 Expr = t.Union[List, Lit, Status, t.List, t.Dict, Var]

@@ -1,6 +1,6 @@
 %ignore space
 %require Lit
-%require Let
+%require Set
 %require SayWhat
 %require Str
 %require Doc

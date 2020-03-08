@@ -1,15 +1,15 @@
 START : <BOF> StoryStart list(Sec) StoryEnd { Novel($2) } ;
 
-Start : 'start' { $0 } ;
-Story : 'story' { $0 } ;
-End   : 'end'   { $0 } ;
-Say   : 'say'   { $0 } ;
-Set   : 'set'   { $0 } ;
+START : 'start' { $0 } ;
+STORY : 'story' { $0 } ;
+END   : 'end'   { $0 } ;
+SAY   : 'say'   { $0 } ;
+SET   : 'set'   { $0 } ;
 
 ChoiceToken : 'choice'   { $0 };
 
-StoryStart : Story Start | <game_start_chinese> { $0 };
-StoryEnd   : Story End   | <game_end_chinese>   { $0 };
+StoryStart : STORY START | <game_start_chinese> { $0 };
+StoryEnd   : STORY END   | <game_end_chinese>   { $0 };
 
 Num : <int>   { Lit(@0, int(*$0)) } 
     | <float> { Lit(@0, float(*$0)) }
@@ -36,10 +36,10 @@ Atom :  Str             { $0 }
       | '(' Expression ')' { $1 }
       ;
 
-LabelStart : Start Story ID  { Label(@0, $2, False) }
+LabelStart : START STORY ID  { Label(@0, $2, False) }
            ;
 
-LabelEnd   : End ID             { Label(@0, $1, True) }
+LabelEnd   : END ID             { Label(@0, $1, True) }
            ;
 
 Comment    : <comment> { *$0 }
@@ -49,9 +49,9 @@ Status     : '[' ID ']' '(' ID ')' { Status(@0, $1, $4) }
            | '[' ID ']'            { Status(@0, $1, None) }
            ;
 
-SayWhat    : Say <saystr>               { SayWhat(@0, None, *$1, None) }
-           | ID Say <saystr>            { SayWhat(@1, $0, *$2, None)   }
-           | ID Status Say <saystr>     { SayWhat(@2, $0, *$3, $1)     }
+SayWhat    : SAY <saystr>               { SayWhat(@0, None, *$1, None) }
+           | ID SAY <saystr>            { SayWhat(@1, $0, *$2, None)   }
+           | ID Status SAY <saystr>     { SayWhat(@2, $0, *$3, $1)     }
            ;
 
 Command    : '>' ID list(Expression)        { Command(@0, $1, $2) }
@@ -67,7 +67,7 @@ Novel      : LabelStart LabelEnd           { Doc($0, None) }
            | LabelStart list(Sec) LabelEnd { Doc($0, $1)   }
            ;
 
-Let        : Set ID '=' Expression   { Let(@0, $1, $3) }
+Set        : SET ID '=' Expression   { Set(@0, $1, $3) }
            ;
 
 Camera     : '+' List   { Camera(@0, *$0, $1) }
@@ -81,7 +81,7 @@ Action     : '[' ID ']' '->' ID { Action(@0, $1, $4) }
 Chapter    : '=====' list(ID) '=====' { Chapter(@0, $1) }
            ;
 
-Sec    : Let           { $0 }
+Sec    : Set           { $0 }
        | Camera        { $0 }
        | SayWhat       { $0 }
        | Command       { $0 }
